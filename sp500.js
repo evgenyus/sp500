@@ -28,7 +28,6 @@ let cpi = {};
 		})
 	).then(function(){
 		let $row;
-		console.log(cpi, hash);
 		for (let y = 1988; y <= 2016; y++) {
 			for (let m = 1; m <= 12; m += 3) {
 				let basePrice = 0,
@@ -42,9 +41,7 @@ let cpi = {};
 							cpiDiff = 0,
 							className = '';
 							
-						if (yy < y || (yy === y && mm < m)) {
-							//className = 'empty';
-						} else {
+						if (yy > y || (yy === y && mm >= m)) {
 							let date = `${mm}/${yy}`;
 							let price = hash[date];
 
@@ -59,16 +56,30 @@ let cpi = {};
 						}
 
 						$row.append(`<div class='cell ${className}'
+								data-buy='${m}/${y}'
+								data-sell='${mm}/${yy}'
 								data-return='${ret}'
-								data-hover='From ${m}/${y} to ${mm}/${yy} CPI-Adjusted Return ${(100*(+ret-1)).toFixed(1)}%'>
 							</div>`);
 					}
 				}
-				if (m === 1) {
+				if (m === 1 && y % 2 === 0) {
 					$('#sp500').append(`<span class='year'>${y}</span>`);
+					$('#hor-legend').append(`<span>${y}</span>`);
 				}
 				$('#sp500').append($row);
 			}
 		}
+
+		$('#sp500').on('mouseenter', '.cell:not(.empty)', e => {
+			let $cell = $(e.target);
+			let text = '';
+
+			if ($cell.attr('data-return') !== '0') {
+				text = `From ${$cell.attr('data-buy')} to ${$cell.attr('data-sell')}<br>
+					CPI-Adjusted Return ${(100*(+$cell.attr('data-return')-1)).toFixed(1)}%`;
+			}
+			
+			$('#legend').html(text);
+		});
 	})
 })();

@@ -4,6 +4,13 @@
 	<style>
 		body {
 			font-family: Helvetica, Arial, sans-serif;
+			line-height: 1.2;
+		}
+
+		#hor-legend {
+			width: 920px;
+  			display: flex;
+  			justify-content: space-between;
 		}
 		#sp500 {
 			margin: 0;
@@ -28,18 +35,7 @@
 		}
 
 		#sp500 .cell:hover {
-			z-index: 1000;
-		}
-
-	    #sp500 .cell:hover::before {
-			content: attr(data-hover);
-			display: block;
-			background: black;
-			position: absolute;
-			top: 100%;
-			left: -7px;
-			right: -7px;
-			padding: 15px;
+			z-index: 1;
 		}
 
 		#sp500 .cell:hover::after {
@@ -62,6 +58,23 @@
 
 		#sp500 .cell.empty {
 			background-color: transparent;
+		}
+
+		#explanation {
+			position: absolute;
+			left: 100px;
+			bottom: 250px;
+			width: 400px;
+		}
+
+		#legend {
+			border: 1px solid black;
+			position: absolute;
+			left: 100px;
+			padding: 10px;
+			bottom: 150px;
+			min-width: 200px;
+			min-height: 50px;
 		}
 
 		[data-return^='0.99'] {
@@ -160,9 +173,14 @@
 	</style>
 	</head>
 	<body>
+		
 		<figure id="sp500">
-			
+			<div id="hor-legend"></div>	
 		</figure>
+
+		<div id="explanation">
+		This chart visualizes annualized total (with reinvested dividends) returns for the S&amp;P 500 for every quarter since 1988 &mdash; over 6,000 combinations.
+		</div>
 
 		<div id="legend">
 		</div>
